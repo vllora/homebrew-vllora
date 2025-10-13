@@ -5,11 +5,11 @@ class Ellora < Formula
 
     on_macos do
       if Hardware::CPU.arm?
-        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-3/ai-gateway-macos-aarch64"
-        sha256 "1ddf5c51c1d71bfbd4c947110a4ccb3aff8b4903f24de5f8d6b446185a1e83e2"  # Run: shasum -a 256 ai-gateway-aarch64
+        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-4/ai-gateway-macos-aarch64"
+        sha256 "c3277a77bb2f85836929a889877df501397ac2577e74091b09e0d8356ba54089"  # Run: shasum -a 256 ai-gateway-aarch64  
       else
-        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-3/ai-gateway-macos-x86_64"
-        sha256 "8f5db99654cf4072a43e8f38f83b3074cfa9ba996cb9a37a44cd033da45f4262"  # Run: shasum -a 256 ai-gateway-x86_64
+        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-4/ai-gateway-macos-x86_64"
+        sha256 "9611fff61091d1eac52a11af613651d375d9a7347cb63c1701ac7dd51cfe57dd"  # Run: shasum -a 256 ai-gateway-x86_64
       end
     end
 
@@ -18,8 +18,8 @@ class Ellora < Formula
     #     url "https://github.com/langdb/ai-gateway/releases/download/v0.3.2/ai-gateway-linux-aarch64"
     #     sha256 "f9dbe7dfbe1f7a6a817f0d3a674d54ad07062496e5753106d42d916ef450b7b2"  # Run: shasum -a 256 ai-gateway-aarch64
     #   else
-        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-3/ai-gateway-linux-x86_64"
-        sha256 "a6fa039d4520081d6c8613777481439072110816975a747355bb5ea4dc818be4"  # Run: shasum -a 256 ai-gateway-x86_64
+        url "https://github.com/langdb/ai-gateway/releases/download/v0.4.0-prerelease-4/ai-gateway-linux-x86_64"
+        sha256 "54b5ba413202a2a641156ffcd2076f262a719af74b93da20eed1a148c12ca32d"  # Run: shasum -a 256 ai-gateway-x86_64
     #   end
     end
 
