@@ -1,7 +1,7 @@
 class Ellora < Formula
     desc "Ellora - Multi-provider AI gateway server"
     homepage "https://github.com/langdb/ellora"
-    version "0.4.0-prerelease-5"  # Update this with your version
+    version "0.4.0-prerelease-7"  # Update this with your version
 
     on_macos do
       if Hardware::CPU.arm?
