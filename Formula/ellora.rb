@@ -1,4 +1,4 @@
-lass Ellora < Formula
+class Ellora < Formula
     desc "vllora - Multi-provider AI integration server"
     homepage "https://github.com/langdb/ellora"
     version "0.4.0-prerelease-10"  # Update this with your version
