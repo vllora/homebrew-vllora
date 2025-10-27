@@ -1,6 +1,6 @@
 class Ellora < Formula
-    desc "vllora - Multi-provider AI integration server"
-    homepage "https://github.com/langdb/ellora"
+    desc "vllora - Multi-provider AI gateway server"
+    homepage "https://github.com/langdb/vllora"
     version "0.4.0-prerelease-10"  # Update this with your version
     on_macos do
       if Hardware::CPU.arm?
@@ -32,9 +32,9 @@ class Ellora < Formula
       end
     end
     def caveats
-      <<~EOS
-        Server is running on port 8080 and UI can be accessed at http://localhost:8084
-      EOS
+      # <<~EOS
+      #   Server is running on port 8080 and UI can be accessed at http://localhost:8084
+      # EOS
     end
     test do
       system "#{bin}/ai-gateway", "--version"
