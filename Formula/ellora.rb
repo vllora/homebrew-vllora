@@ -23,12 +23,12 @@ lass Ellora < Formula
     def install
       if OS.mac?
         if Hardware::CPU.arm?
-          bin.install "ai-gateway-macos-aarch64" => "ellora"
+          bin.install "ai-gateway-macos-aarch64" => "vllora"
         else
-          bin.install "ai-gateway-macos-x86_64" => "ellora"
+          bin.install "ai-gateway-macos-x86_64" => "vllora"
         end
       elsif OS.linux?
-        bin.install "ai-gateway-linux-x86_64" => "ellora"
+        bin.install "ai-gateway-linux-x86_64" => "vllora"
       end
     end
     def caveats
