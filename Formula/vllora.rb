@@ -1,7 +1,7 @@
 class Vllora < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
-  version ".4.0-prerelease-30"  # Update this with your version
+  version "0.4.0-prerelease-30"  # Update this with your version
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/vllora/vllora/releases/download/v.4.0-prerelease-30/ai-gateway-macos-aarch64"
