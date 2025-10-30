@@ -21,6 +21,27 @@ on:
       HOMEBREW_TAP_TOKEN:
         required: true
 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to update to (e.g. v0.4.0)
+        required: true
+        type: string
+      source_repo:
+        description: Owner/repo of the source releases
+        required: true
+        type: string
+      target_branch:
+        description: Target branch to push to or PR into
+        required: false
+        default: main
+        type: string
+      tap_repo:
+        description: Owner/repo of the Homebrew tap to update
+        required: false
+        default: vllora/homebrew-vllora
+        type: string
+
 jobs:
   update:
     runs-on: ubuntu-latest
