@@ -1,0 +1,103 @@
+name: Update formula
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      source_repo:
+        required: true
+        type: string
+    secrets:
+      HOMEBREW_TAP_TOKEN:
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          mkdir -p release
+          gh release download "${{ inputs.tag }}" \
+            -R "${{ inputs.source_repo }}" \
+            -D release --pattern "vllora-*"
+          ls -lh release
+
+      - name: Compute checksums
+        id: shas
+        run: |
+          echo "linux_x64=$(sha256sum release/vllora-linux-x86_64 | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "linux_arm=$(sha256sum release/vllora-linux-aarch64 | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "mac_x64=$(sha256sum release/vllora-macos-x86_64 | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "mac_arm=$(sha256sum release/vllora-macos-aarch64 | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Update Formula/vllora.rb
+        env:
+          TAG: ${{ inputs.tag }}
+          LINUX_X64_SHA: ${{ steps.shas.outputs.linux_x64 }}
+          LINUX_ARM_SHA: ${{ steps.shas.outputs.linux_arm }}
+          MAC_X64_SHA: ${{ steps.shas.outputs.mac_x64 }}
+          MAC_ARM_SHA: ${{ steps.shas.outputs.mac_arm }}
+          SOURCE_REPO: ${{ inputs.source_repo }}
+        run: |
+          VERSION="${TAG#v}"
+          sed -i -E 's/^(\s*version\s*\").*(\")/\1'"$VERSION"'\2/' Formula/vllora.rb
+          awk -v tag="$TAG" -v orgrepo="$SOURCE_REPO" -v linux_x64_sha="$LINUX_X64_SHA" -v linux_arm_sha="$LINUX_ARM_SHA" -v mac_x64_sha="$MAC_X64_SHA" -v mac_arm_sha="$MAC_ARM_SHA" '
+            BEGIN { next_sha = "" }
+            {
+              if ($0 ~ /vllora-macos-aarch64/ && $0 ~ /url "/) {
+                sub(/github.com\/[^"]+\//, "github.com/" orgrepo "/")
+                sub(/download\/[^"]+\/vllora-macos-aarch64/, "download/" tag "/vllora-macos-aarch64")
+                print; next_sha="MAC_ARM"; next
+              } else if ($0 ~ /vllora-macos-x86_64/ && $0 ~ /url "/) {
+                sub(/github.com\/[^"]+\//, "github.com/" orgrepo "/")
+                sub(/download\/[^"]+\/vllora-macos-x86_64/, "download/" tag "/vllora-macos-x86_64")
+                print; next_sha="MAC_X64"; next
+              } else if ($0 ~ /vllora-linux-aarch64/ && $0 ~ /url "/) {
+                sub(/github.com\/[^"]+\//, "github.com/" orgrepo "/")
+                sub(/download\/[^"]+\/vllora-linux-aarch64/, "download/" tag "/vllora-linux-aarch64")
+                print; next_sha="LINUX_ARM"; next
+              } else if ($0 ~ /vllora-linux-x86_64/ && $0 ~ /url "/) {
+                sub(/github.com\/[^"]+\//, "github.com/" orgrepo "/")
+                sub(/download\/[^"]+\/vllora-linux-x86_64/, "download/" tag "/vllora-linux-x86_64")
+                print; next_sha="LINUX_X64"; next
+              } else if (next_sha != "" && $0 ~ /^\s*sha256 "/) {
+                if (next_sha == "MAC_ARM")  { sub(/sha256 ".*"/, "sha256 \"" mac_arm_sha "\"") }
+                if (next_sha == "MAC_X64")  { sub(/sha256 ".*"/, "sha256 \"" mac_x64_sha "\"") }
+                if (next_sha == "LINUX_ARM"){ sub(/sha256 ".*"/, "sha256 \"" linux_arm_sha "\"") }
+                if (next_sha == "LINUX_X64"){ sub(/sha256 ".*"/, "sha256 \"" linux_x64_sha "\"") }
+                print; next_sha=""; next
+              }
+              print
+            }
+          ' Formula/vllora.rb > Formula/vllora.rb.new
+          mv Formula/vllora.rb.new Formula/vllora.rb
+
+      - name: Commit and push
+        env:
+          TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          git add Formula/vllora.rb
+          if ! git diff --cached --quiet; then
+            git commit -m "vllora ${TAG#v}: update checksums and URLs"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+
