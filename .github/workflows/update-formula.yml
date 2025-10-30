@@ -13,6 +13,10 @@ on:
         required: false
         type: string
         default: main
+      tap_repo:
+        required: false
+        type: string
+        default: vllora/homebrew-vllora
     secrets:
       HOMEBREW_TAP_TOKEN:
         required: true
@@ -26,7 +30,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          repository: ${{ inputs.tap_repo }}
           ref: ${{ inputs.target_branch }}
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Ensure authenticated remote points to tap repo
+        run: |
+          git remote set-url origin "https://x-access-token:${{ secrets.HOMEBREW_TAP_TOKEN }}@github.com/${{ inputs.tap_repo }}.git"
 
       - name: Configure git
         run: |
