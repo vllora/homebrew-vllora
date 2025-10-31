@@ -92,30 +92,15 @@ jobs:
           SOURCE_REPO: ${{ inputs.source_repo }}
         run: |
           VERSION="${TAG#v}"
-          sed -i -E 's/^(\s*version\s*\").*(\")/\1'"$VERSION"'\2/' Formula/vllora.rb
-          awk -v tag="$TAG" -v orgrepo="$SOURCE_REPO" -v linux_x64_sha="$LINUX_X64_SHA" -v linux_arm_sha="$LINUX_ARM_SHA" -v mac_x64_sha="$MAC_X64_SHA" -v mac_arm_sha="$MAC_ARM_SHA" '
-            BEGIN { next_sha = "" }
-            {
-              indent = ""; if (match($0, /^[\t ]*/)) { indent = substr($0, RSTART, RLENGTH) }
-              if ($0 ~ /vllora-macos-aarch64/ && $0 ~ /url "/) {
-                print indent "url \"https://github.com/" orgrepo "/releases/download/" tag "/vllora-macos-aarch64\""; next_sha="MAC_ARM"; next
-              } else if ($0 ~ /vllora-macos-x86_64/ && $0 ~ /url "/) {
-                print indent "url \"https://github.com/" orgrepo "/releases/download/" tag "/vllora-macos-x86_64\""; next_sha="MAC_X64"; next
-              } else if ($0 ~ /vllora-linux-aarch64/ && $0 ~ /url "/) {
-                print indent "url \"https://github.com/" orgrepo "/releases/download/" tag "/vllora-linux-aarch64\""; next_sha="LINUX_ARM"; next
-              } else if ($0 ~ /vllora-linux-x86_64/ && $0 ~ /url "/) {
-                print indent "url \"https://github.com/" orgrepo "/releases/download/" tag "/vllora-linux-x86_64\""; next_sha="LINUX_X64"; next
-              } else if (next_sha != "" && $0 ~ /^\s*sha256 "/) {
-                if (next_sha == "MAC_ARM")  { sub(/sha256 ".*"/, "sha256 \"" mac_arm_sha "\"") }
-                if (next_sha == "MAC_X64")  { sub(/sha256 ".*"/, "sha256 \"" mac_x64_sha "\"") }
-                if (next_sha == "LINUX_ARM"){ sub(/sha256 ".*"/, "sha256 \"" linux_arm_sha "\"") }
-                if (next_sha == "LINUX_X64"){ sub(/sha256 ".*"/, "sha256 \"" linux_x64_sha "\"") }
-                print; next_sha=""; next
-              }
-              print
-            }
-          ' Formula/vllora.rb > Formula/vllora.rb.new
-          mv Formula/vllora.rb.new Formula/vllora.rb
+          ORGREPO="$SOURCE_REPO"
+          sed \
+            -e "s/{{VERSION}}/${VERSION}/g" \
+            -e "s/{{MAC_ARM_SHA}}/${MAC_ARM_SHA}/g" \
+            -e "s/{{MAC_X64_SHA}}/${MAC_X64_SHA}/g" \
+            -e "s/{{LINUX_ARM_SHA}}/${LINUX_ARM_SHA}/g" \
+            -e "s/{{LINUX_X64_SHA}}/${LINUX_X64_SHA}/g" \
+            -e "s|https://github.com/vllora/vllora/|https://github.com/${ORGREPO}/|g" \
+            Formula/vllora_template.rb > Formula/vllora.rb
 
       - name: Commit and push
         env:
