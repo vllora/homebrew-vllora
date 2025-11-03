@@ -1,37 +1,37 @@
 class VlloraBeta < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
-  version "0.1.0-prerelease-1"  # Update this with your version
+  version "0.1.0-prerelease-2"  # Update this with your version
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-1/vllora-macos-aarch64"
-      sha256 "4397217f89b4a39a2dc1feed21917e58a6cdc2605434649a0049146d0c99d315"  # Run: shasum -a 256 ai-gateway-aarch64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-2/vllora-macos-aarch64"
+      sha256 "c1a85554cc0eec40e88f55b3d6e0e17d27eb413c7959f4de04fe65243614fc12"  # Run: shasum -a 256 ai-gateway-aarch64
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-1/vllora-macos-x86_64"
-      sha256 "bff74d1ca62bc02b83ef1b19f0e3790d267ec3f4499f9c04022ddbd18d8eb860"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-2/vllora-macos-x86_64"
+      sha256 "b93d4c54792959bc31044280cc272e8001efccfd70c24157cfe1fa456c02ece8"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-1/vllora-linux-aarch64"
-      sha256 "a9415d75981582d4dc701ab11ce0dae9f2e0295b29d4d7c30fa77cb49f1494d4"  # Will be updated by CI
+      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-2/vllora-linux-aarch64"
+      sha256 "8c241fcef552f1777237c2b27beb5865c1781c4eec6449ac748650cb49f0a4be"  # Will be updated by CI
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-1/vllora-linux-x86_64"
-      sha256 "b799af639fe2c2d61f9b82e552b1c01c6f3c57aabdcb79f6f93e39cd989e070e"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.0-prerelease-2/vllora-linux-x86_64"
+      sha256 "baf407e8370fbf4c05a6842ec79e18f6f997e79c69bac5750921f3bd8f53abc9"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   def install
     if OS.mac?
       if Hardware::CPU.arm?
-        bin.install "vllora-macos-aarch64" => "vllora-beta"
+        bin.install "vllora-macos-aarch64" => "{{BIN_NAME}}"
       else
-        bin.install "vllora-macos-x86_64" => "vllora-beta"
+        bin.install "vllora-macos-x86_64" => "{{BIN_NAME}}"
       end
     elsif OS.linux?
       if Hardware::CPU.arm?
-        bin.install "vllora-linux-aarch64" => "vllora-beta"
+        bin.install "vllora-linux-aarch64" => "{{BIN_NAME}}"
       else
-        bin.install "vllora-linux-x86_64" => "vllora-beta"
+        bin.install "vllora-linux-x86_64" => "{{BIN_NAME}}"
       end
     end
   end
@@ -41,6 +41,6 @@ class VlloraBeta < Formula
     # EOS
   end
   test do
-    system "#{bin}/vllora-beta", "--version"
+    system "#{bin}/{{BIN_NAME}}", "--version"
   end
 end
