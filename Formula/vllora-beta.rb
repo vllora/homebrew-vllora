@@ -23,15 +23,15 @@ class VlloraBeta < Formula
   def install
     if OS.mac?
       if Hardware::CPU.arm?
-        bin.install "vllora-macos-aarch64" => "vllora"
+        bin.install "vllora-macos-aarch64" => "vllora-beta"
       else
-        bin.install "vllora-macos-x86_64" => "vllora"
+        bin.install "vllora-macos-x86_64" => "vllora-beta"
       end
     elsif OS.linux?
       if Hardware::CPU.arm?
-        bin.install "vllora-linux-aarch64" => "vllora"
+        bin.install "vllora-linux-aarch64" => "vllora-beta"
       else
-        bin.install "vllora-linux-x86_64" => "vllora"
+        bin.install "vllora-linux-x86_64" => "vllora-beta"
       end
     end
   end
@@ -41,6 +41,6 @@ class VlloraBeta < Formula
     # EOS
   end
   test do
-    system "#{bin}/vllora", "--version"
+    system "#{bin}/vllora-beta", "--version"
   end
 end
