@@ -17,6 +17,10 @@ on:
         required: false
         type: string
         default: vllora/homebrew-vllora
+      is_prerelease:
+        required: false
+        type: boolean
+        default: true
     secrets:
       HOMEBREW_TAP_TOKEN:
         required: true
@@ -41,6 +45,11 @@ on:
         required: false
         default: vllora/homebrew-vllora
         type: string
+      is_prerelease:
+        description: Whether the release is a prerelease
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   update:
@@ -82,6 +91,17 @@ jobs:
           echo "mac_x64=$(sha256sum release/vllora-macos-x86_64 | awk '{print $1}')" >> $GITHUB_OUTPUT
           echo "mac_arm=$(sha256sum release/vllora-macos-aarch64 | awk '{print $1}')" >> $GITHUB_OUTPUT
 
+      - name: Set output file name
+        id: set_output_file
+        env: 
+          IS_PRERELEASE: ${{ inputs.is_prerelease }}
+        run: |
+          if [ "$IS_PRERELEASE" = true ]; then
+            echo "output_file=Formula/vllora-beta.rb" >> $GITHUB_OUTPUT
+          else
+            echo "output_file=Formula/vllora.rb" >> $GITHUB_OUTPUT
+          fi
+
       - name: Update Formula/vllora.rb
         env:
           TAG: ${{ inputs.tag }}
@@ -90,6 +110,7 @@ jobs:
           MAC_X64_SHA: ${{ steps.shas.outputs.mac_x64 }}
           MAC_ARM_SHA: ${{ steps.shas.outputs.mac_arm }}
           SOURCE_REPO: ${{ inputs.source_repo }}
+          OUTPUT_FILE: ${{ steps.set_output_file.outputs.output_file }}
         run: |
           VERSION="${TAG#v}"
           ORGREPO="$SOURCE_REPO"
@@ -100,13 +121,14 @@ jobs:
             -e "s/{{LINUX_ARM_SHA}}/${LINUX_ARM_SHA}/g" \
             -e "s/{{LINUX_X64_SHA}}/${LINUX_X64_SHA}/g" \
             -e "s|https://github.com/vllora/vllora/|https://github.com/${ORGREPO}/|g" \
-            Formula/vllora_template.rb > Formula/vllora.rb
+            Formula/vllora_template.rb > "${OUTPUT_FILE}"
 
       - name: Commit and push
         env:
           TAG: ${{ inputs.tag }}
+          OUTPUT_FILE: ${{ steps.set_output_file.outputs.output_file }}
         run: |
-          git add Formula/vllora.rb
+          git add "${OUTPUT_FILE}"
           if ! git diff --cached --quiet; then
             git commit -m "vllora ${TAG#v}: update checksums and URLs"
             git push origin HEAD:${{ inputs.target_branch }}
