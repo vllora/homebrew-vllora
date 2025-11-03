@@ -99,9 +99,11 @@ jobs:
           if [ "$IS_PRERELEASE" = true ]; then
             echo "output_file=Formula/vllora-beta.rb" >> $GITHUB_OUTPUT
             echo "class_name=VlloraBeta" >> $GITHUB_OUTPUT
+            echo "bin_name=vllora-beta" >> $GITHUB_OUTPUT
           else
             echo "output_file=Formula/vllora.rb" >> $GITHUB_OUTPUT
             echo "class_name=Vllora" >> $GITHUB_OUTPUT
+            echo "bin_name=vllora" >> $GITHUB_OUTPUT
           fi
 
       - name: Update Formula/vllora.rb
@@ -114,11 +116,13 @@ jobs:
           SOURCE_REPO: ${{ inputs.source_repo }}
           OUTPUT_FILE: ${{ steps.set_output_file.outputs.output_file }}
           CLASS_NAME: ${{ steps.set_output_file.outputs.class_name }}
+          BIN_NAME: ${{ steps.set_output_file.outputs.bin_name }}
         run: |
           VERSION="${TAG#v}"
           ORGREPO="$SOURCE_REPO"
           sed \
             -e "s/{{CLASS_NAME}}/${CLASS_NAME}/g" \
+            -e "s/{{BIN_NAME}}/${BIN_NAME}/g" \
             -e "s/{{VERSION}}/${VERSION}/g" \
             -e "s/{{MAC_ARM_SHA}}/${MAC_ARM_SHA}/g" \
             -e "s/{{MAC_X64_SHA}}/${MAC_X64_SHA}/g" \

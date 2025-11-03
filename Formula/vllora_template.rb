@@ -23,15 +23,15 @@ class {{CLASS_NAME}} < Formula
   def install
     if OS.mac?
       if Hardware::CPU.arm?
-        bin.install "vllora-macos-aarch64" => "vllora"
+        bin.install "vllora-macos-aarch64" => "{{BIN_NAME}}"
       else
-        bin.install "vllora-macos-x86_64" => "vllora"
+        bin.install "vllora-macos-x86_64" => "{{BIN_NAME}}"
       end
     elsif OS.linux?
       if Hardware::CPU.arm?
-        bin.install "vllora-linux-aarch64" => "vllora"
+        bin.install "vllora-linux-aarch64" => "{{BIN_NAME}}"
       else
-        bin.install "vllora-linux-x86_64" => "vllora"
+        bin.install "vllora-linux-x86_64" => "{{BIN_NAME}}"
       end
     end
   end
@@ -41,6 +41,6 @@ class {{CLASS_NAME}} < Formula
     # EOS
   end
   test do
-    system "#{bin}/vllora", "--version"
+    system "#{bin}/{{BIN_NAME}}", "--version"
   end
 end
