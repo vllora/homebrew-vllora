@@ -1,4 +1,4 @@
-class Vllora < Formula
+class VlloraBeta < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
   version "0.1.0-prerelease-1"  # Update this with your version

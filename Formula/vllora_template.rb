@@ -1,4 +1,4 @@
-class Vllora < Formula
+class {{CLASS_NAME}} < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
   version "{{VERSION}}"  # Update this with your version
