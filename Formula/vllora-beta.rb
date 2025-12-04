@@ -1,23 +1,23 @@
 class VlloraBeta < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
-  version "0.1.14-prerelease-4"  # Update this with your version
+  version "0.1.14-prerelease-5"  # Update this with your version
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-4/vllora-macos-aarch64"
-      sha256 "d724f6ce1252530515195a96e230517df099987592fa0e73b736b5b01a0133e0"  # Run: shasum -a 256 ai-gateway-aarch64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-5/vllora-macos-aarch64"
+      sha256 "7cf20bd64d4adbd644125aff876de28e27e38ea58075ea70cb15475577fccf2b"  # Run: shasum -a 256 ai-gateway-aarch64
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-4/vllora-macos-x86_64"
-      sha256 "00b098e85aea150aa6f7bfbd62a0e047a51a495496a28abc161714ab3ee38d8a"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-5/vllora-macos-x86_64"
+      sha256 "c61a61a3846b7797aa7076820e995486e41e2b6b08917d1ffad0092817259a5f"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-4/vllora-linux-aarch64"
-      sha256 "f2f30069acfdc1b3e132cd335184946f1ebc678b6450801315c8b76c6d54a41e"  # Will be updated by CI
+      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-5/vllora-linux-aarch64"
+      sha256 "6164a50ac134c7d64cdfadfbe7b247fb83a56f43530cdda655cd7c4f85a65fd1"  # Will be updated by CI
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-4/vllora-linux-x86_64"
-      sha256 "8331dc91ad1261509f2c1666d5361aa8ed54fdaee0e9521ccd1a2256a1f7d327"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.14-prerelease-5/vllora-linux-x86_64"
+      sha256 "8b550fa6d5ba429bf5b25a1604fc7759c67a483be91600b078404ba889ea1df9"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   def install
