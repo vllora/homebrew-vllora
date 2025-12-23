@@ -1,23 +1,23 @@
 class Vllora < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
-  version "0.1.19"  # Update this with your version
+  version "0.1.20"  # Update this with your version
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.19/vllora-macos-aarch64"
-      sha256 "f79286c821d7f22d7b160f431cb3a79be97f29371e41e7f55041cf38d93ffd26"  # Run: shasum -a 256 ai-gateway-aarch64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.20/vllora-macos-aarch64"
+      sha256 "a92cb6db9e99b0088abb381c21cc8de5bb4a571c3b60c770c14d738fa2842b2a"  # Run: shasum -a 256 ai-gateway-aarch64
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.19/vllora-macos-x86_64"
-      sha256 "248aa47f3fe2def9a70d8d873ef5c2163c89258cf6e975eab79373d450c364b6"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.20/vllora-macos-x86_64"
+      sha256 "fe952931300316f9ec34b56b70a82f3478c2f75124379d67a29f56e7670a8ae5"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.19/vllora-linux-aarch64"
-      sha256 "f6d8a5fff96db0e6474ac13587d5b0fcbf278862d481e0ed6dca330a1d9d01cb"  # Will be updated by CI
+      url "https://github.com/vllora/vllora/releases/download/v0.1.20/vllora-linux-aarch64"
+      sha256 "e798687ca36fea4dad8d06e896ff4d70257721b6fa9403e69fe67386d40b143f"  # Will be updated by CI
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.19/vllora-linux-x86_64"
-      sha256 "5fe20dc5df4ebd344cb2668e64169cc23cf39b5c7d1183e22515f1950adb6293"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.20/vllora-linux-x86_64"
+      sha256 "84470425d335dbdcb5db67384d6b262c37428eec5b905bddcf234efd80580e10"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   def install
