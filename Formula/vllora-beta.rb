@@ -1,23 +1,23 @@
 class VlloraBeta < Formula
   desc "vllora - Multi-provider AI gateway server"
   homepage "https://github.com/vllora/vllora"
-  version "0.1.21-prerelease-37"  # Update this with your version
+  version "0.1.21-prerelease-38"  # Update this with your version
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-37/vllora-macos-aarch64"
-      sha256 "6eab68e91404aebe0519ddd3a69d553cfb70c56464f154a6fca4070c9cce8b99"  # Run: shasum -a 256 ai-gateway-aarch64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-38/vllora-macos-aarch64"
+      sha256 "d23c375f1a8bb21f713973e10663ad69553958c1a8d1e3072980288e93730a33"  # Run: shasum -a 256 ai-gateway-aarch64
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-37/vllora-macos-x86_64"
-      sha256 "fdc71a37ba7e2132a5cd63d9861a69db23056b53a3007824ead4e56d1c7d3905"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-38/vllora-macos-x86_64"
+      sha256 "c4e95f77ad1f5e2b7a4894aac6481b22ec7883ae4567eefe6ef5cf9265706ae6"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-37/vllora-linux-aarch64"
-      sha256 "39a9df412b5c9e5898296e577226088ede8cebc29ce372ffaf2228f49f565803"  # Will be updated by CI
+      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-38/vllora-linux-aarch64"
+      sha256 "383264da4e5cc7e0714ffe9e14482a074f09c9c4d8624fc2aae4fac996f98562"  # Will be updated by CI
     else
-      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-37/vllora-linux-x86_64"
-      sha256 "689103ea993977d9453ecc6743c4ef9ffeac7995d1de82ccb3f638c42e499a1b"  # Run: shasum -a 256 ai-gateway-x86_64
+      url "https://github.com/vllora/vllora/releases/download/v0.1.21-prerelease-38/vllora-linux-x86_64"
+      sha256 "4be2d5acbd49810be406d4abb1b06f745f57f03a7ad04adcc1518637f04a40b4"  # Run: shasum -a 256 ai-gateway-x86_64
     end
   end
   def install
